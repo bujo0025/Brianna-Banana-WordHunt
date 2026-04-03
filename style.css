@@ -57,6 +57,10 @@ header h1 {
 
     margin: 10px auto;
     position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 .tile {
@@ -74,6 +78,10 @@ header h1 {
 
     box-shadow: 0 4px 10px rgba(0,0,0,0.4);
     transition: transform 0.1s, background 0.2s;
+    user-select: none;      /* Prevent text selection */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 .tile:active {

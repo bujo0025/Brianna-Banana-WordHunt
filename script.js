@@ -35,7 +35,7 @@ fetch("words.json")
         dictionary = new Set(data.map(w => w.toUpperCase()));
     });
 
-// SVG for swipe lines
+// SVG for swipe lines (we won't use it for lines anymore, just cleared)
 const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 svg.style.position = "absolute";
 svg.style.top = 0;
@@ -75,7 +75,6 @@ function resetGame() {
     timerElement.innerText = time;
 }
 
-// Better board generation
 function generateBoard() {
     boardElement.innerHTML = "";
     boardElement.appendChild(svg);
@@ -117,20 +116,10 @@ function getCoords(tile) {
     };
 }
 
+// === LINE DRAWING DISABLED ===
 function drawLine(tile1, tile2) {
-    const p1 = getCoords(tile1);
-    const p2 = getCoords(tile2);
-
-    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-    line.setAttribute("x1", p1.x);
-    line.setAttribute("y1", p1.y);
-    line.setAttribute("x2", p2.x);
-    line.setAttribute("y2", p2.y);
-    line.setAttribute("stroke", "#f4c542");
-    line.setAttribute("stroke-width", "8");
-    line.setAttribute("stroke-linecap", "round");
-
-    svg.appendChild(line);
+    // Line drawing removed, function intentionally empty
+    // Any lines previously drawn in SVG are cleared in resetSelection()
 }
 
 function isAdjacent(tile1, tile2) {
@@ -163,7 +152,7 @@ function dragOver(tile) {
         isAdjacent(lastTile, tile)
     ) {
         selectTile(tile);
-        drawLine(lastTile, tile);
+        drawLine(lastTile, tile); // no longer draws anything
     }
 }
 
@@ -236,7 +225,7 @@ function resetSelection() {
     currentWord = "";
     selectedTiles = [];
     currentWordElement.innerText = "";
-    svg.innerHTML = "";
+    svg.innerHTML = ""; // clears any leftover SVG
 
     document.querySelectorAll(".tile").forEach(tile => {
         tile.classList.remove("selected");
