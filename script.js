@@ -35,7 +35,8 @@ fetch("words.json")
         dictionary = new Set(data.map(w => w.toUpperCase()));
     });
 
-// SVG for swipe lines (we won't use it for lines anymore, just cleared)
+// === LINE DRAWING REMOVED ===
+// SVG is kept for potential future use, but nothing is drawn
 const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 svg.style.position = "absolute";
 svg.style.top = 0;
@@ -99,10 +100,19 @@ function generateBoard() {
         tile.innerText = letters[i];
         tile.dataset.index = i;
 
+        // Desktop events
         tile.addEventListener("mousedown", () => startDrag(tile));
         tile.addEventListener("mouseenter", () => dragOver(tile));
-        tile.addEventListener("touchstart", () => startDrag(tile));
-        tile.addEventListener("touchmove", touchMove);
+
+        // Mobile events with preventDefault
+        tile.addEventListener("touchstart", (e) => {
+            e.preventDefault();
+            startDrag(tile);
+        });
+        tile.addEventListener("touchmove", (e) => {
+            e.preventDefault();
+            touchMove(e);
+        });
 
         boardElement.appendChild(tile);
     }
@@ -116,10 +126,9 @@ function getCoords(tile) {
     };
 }
 
-// === LINE DRAWING DISABLED ===
+// Line drawing removed
 function drawLine(tile1, tile2) {
-    // Line drawing removed, function intentionally empty
-    // Any lines previously drawn in SVG are cleared in resetSelection()
+    // intentionally empty
 }
 
 function isAdjacent(tile1, tile2) {
@@ -152,7 +161,7 @@ function dragOver(tile) {
         isAdjacent(lastTile, tile)
     ) {
         selectTile(tile);
-        drawLine(lastTile, tile); // no longer draws anything
+        drawLine(lastTile, tile);
     }
 }
 
@@ -225,7 +234,7 @@ function resetSelection() {
     currentWord = "";
     selectedTiles = [];
     currentWordElement.innerText = "";
-    svg.innerHTML = ""; // clears any leftover SVG
+    svg.innerHTML = "";
 
     document.querySelectorAll(".tile").forEach(tile => {
         tile.classList.remove("selected");
